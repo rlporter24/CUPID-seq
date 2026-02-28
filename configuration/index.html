@@ -1,0 +1,1397 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Containerized dual-index demultiplexing pipeline for 16S amplicon sequencing">
+      
+      
+      
+      
+        <link rel="prev" href="../getting-started/">
+      
+      
+        <link rel="next" href="../troubleshooting/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Configuration - CUPID-seq</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="CUPID-seq" class="md-header__button md-logo" aria-label="CUPID-seq" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CUPID-seq
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/rlporter24/CUPID-seq" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    rlporter24/CUPID-seq
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CUPID-seq" class="md-nav__button md-logo" aria-label="CUPID-seq" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    CUPID-seq
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/rlporter24/CUPID-seq" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    rlporter24/CUPID-seq
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#container-file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Container File Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configyaml-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config.yaml Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fastq-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fastq Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fastq-file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fastq File List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#samplesheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-built-index-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-built Index Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-read-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Read Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-only-the-gene-specific-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing Only the Gene-Specific Region
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-length-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating Length Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#container-file-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Container File Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configyaml-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        config.yaml Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Input Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fastq-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fastq Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fastq-file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fastq File List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#samplesheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Samplesheet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-built-index-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-built Index Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-index-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Index Files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Index Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-read-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding the Read Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changing-only-the-gene-specific-region" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing Only the Gene-Specific Region
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-length-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating Length Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="configuration">Configuration</h1>
+<p>This page covers the container file structure, config.yaml settings, input file formats, and custom primer/index setup.</p>
+<h2 id="container-file-structure">Container File Structure</h2>
+<p>The Docker and Singularity images create the following directory layout:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/16s-demux_fileStructure.png" data-desc-position="bottom"><img alt="Container file structure" src="../images/16s-demux_fileStructure.png"></a></p>
+<p>Within the main <code>16s-demux</code> directory:</p>
+<ul>
+<li><strong><code>config/</code></strong> — configuration files, fastq file list, samplesheet, and index files</li>
+<li><strong><code>workflow/rules/</code></strong> — analysis code</li>
+<li><strong><code>workflow/out/</code></strong> — output directory for real analyses</li>
+<li><strong><code>workflow/test_out/</code></strong> — output directory for test runs</li>
+<li><strong><code>fastq_data/</code></strong> — test sequencing data</li>
+</ul>
+<p>The Snakefile and Slurm submission scripts are in the top-level <code>16s-demux</code> directory.</p>
+<hr>
+<h2 id="configyaml-reference">config.yaml Reference</h2>
+<p>The <code>config/config.yaml</code> file controls all pipeline settings. The key fields are:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>samplesheet</code></td>
+<td>Path to the samplesheet file</td>
+<td><code>samplesheet.txt</code></td>
+</tr>
+<tr>
+<td><code>indices</code></td>
+<td>Path to the index file for demultiplexing</td>
+<td><code>indexfordemux.txt</code></td>
+</tr>
+<tr>
+<td><code>fastqlist</code></td>
+<td>Path to the fastq file list</td>
+<td><code>fastq.txt</code></td>
+</tr>
+<tr>
+<td><code>lenR1index</code></td>
+<td>Length of the read 1 index (longest phase)</td>
+<td><code>7</code></td>
+</tr>
+<tr>
+<td><code>lenR2index</code></td>
+<td>Length of the read 2 index (longest phase)</td>
+<td><code>7</code></td>
+</tr>
+<tr>
+<td><code>lenR1primer</code></td>
+<td>Length of read 1 primer (gene-specific + spacer)</td>
+<td><code>23</code></td>
+</tr>
+<tr>
+<td><code>lenR2primer</code></td>
+<td>Length of read 2 primer (gene-specific + spacer)</td>
+<td><code>24</code></td>
+</tr>
+</tbody>
+</table>
+<p>All paths are relative to the <code>config/</code> directory unless absolute paths are provided.</p>
+<hr>
+<h2 id="input-files">Input Files</h2>
+<p>Three inputs are required beyond the sequencing data itself: a <strong>fastq file list</strong>, a <strong>samplesheet</strong>, and the sequencing <strong>fastq data</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most common pipeline errors arise from input file formatting issues. The pipeline validates inputs automatically — check <code>workflow/out/inputCheck_log.txt</code> for any warnings.</p>
+</div>
+<h3 id="fastq-data">Fastq Data</h3>
+<p><strong>Naming rules:</strong></p>
+<ul>
+<li>Sample names must not contain spaces, underscores, or periods (hyphens are fine)</li>
+<li>Rename files before demultiplexing if they violate these rules</li>
+</ul>
+<p><strong>Format:</strong></p>
+<ul>
+<li>Gzipped fastq files (<code>.fastq.gz</code>)</li>
+</ul>
+<p><strong>Location:</strong></p>
+<p>Fastq files can be located anywhere accessible to the container. Their paths are defined by combining the <code>fastqdir</code> variable in <code>config.yaml</code> with the paths in the fastq file list.</p>
+<table>
+<thead>
+<tr>
+<th><code>fastqdir</code> (config.yaml)</th>
+<th>Fastq file list entry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>""</code></td>
+<td><code>/home/users/TEST/sequencing/exp01/fastqs/TEST_R1_001.fastq.gz</code></td>
+</tr>
+<tr>
+<td><code>/home/users/TEST/sequencing/exp01/fastqs/</code></td>
+<td><code>TEST_R1_001.fastq.gz</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Periods in sample names are accepted for demultiplexing but will cause issues with downstream tools like DADA2. Avoid them if you plan to use DADA2.</p>
+</div>
+<h3 id="fastq-file-list">Fastq File List</h3>
+<p><strong>Location:</strong> Place in the <code>config/</code> directory and update the <code>fastqlist</code> field in <code>config.yaml</code> (default name: <code>fastq.txt</code>).</p>
+<p><strong>Format:</strong> Tab-delimited text file with three columns:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>read1</code></td>
+<td>Path to read 1 fastq.gz file</td>
+</tr>
+<tr>
+<td><code>read2</code></td>
+<td>Path to read 2 fastq.gz file</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td>Shortened file identifier</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>file</code> column should use the format <code>{RunName}-{round2plate}-{well}</code>, where:</p>
+<ul>
+<li><code>RunName</code> — any identifier without underscores, spaces, or periods</li>
+<li><code>round2plate</code> — plate identifier for round 2 barcodes</li>
+<li><code>well</code> — well number</li>
+</ul>
+<p><strong>Example:</strong></p>
+<table>
+<thead>
+<tr>
+<th>read1</th>
+<th>read2</th>
+<th>file</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>../fastq_data/test_inputs/KKRP-001_S441_R1_001.fastq.gz</code></td>
+<td><code>../fastq_data/test_inputs/KKRP-001_S441_R2_001.fastq.gz</code></td>
+<td><code>15mc-003-P08B01-A01</code></td>
+</tr>
+<tr>
+<td><code>../fastq_data/test_inputs/KKRP-002_S442_R1_001.fastq.gz</code></td>
+<td><code>../fastq_data/test_inputs/KKRP-002_S442_R2_001.fastq.gz</code></td>
+<td><code>15mc-003-P08B01-A02</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>The <code>file</code> field in the fastq file list must match the first part of the <code>filename</code> field in the samplesheet.</p>
+</div>
+<h3 id="samplesheet">Samplesheet</h3>
+<p><strong>Location:</strong> Place in the <code>config/</code> directory and update the <code>samplesheet</code> field in <code>config.yaml</code> (default name: <code>samplesheet.txt</code>).</p>
+<p><strong>Format:</strong> Tab-delimited file (<code>.tsv</code> or <code>.txt</code>) with a header row. Three columns are <strong>required</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filename</code></td>
+<td>Format: <code>{RunName}-{round2plate}-{well}-L{round1index}</code></td>
+</tr>
+<tr>
+<td><code>sample</code></td>
+<td>Final sample name after demultiplexing (no underscores or periods)</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td>Group identifier for output organization (no spaces or slashes)</td>
+</tr>
+</tbody>
+</table>
+<p>Additional columns can be included freely — only <code>filename</code>, <code>sample</code>, and <code>group</code> are used by the pipeline.</p>
+<p>The <code>{RunName}-{round2plate}-{well}</code> portion of <code>filename</code> must match the corresponding <code>file</code> entries in the fastq file list. The <code>round1index</code> value should match the <code>phase</code> entry in the <code>indexfordemux.txt</code> table.</p>
+<p><strong>Group behavior:</strong> Samples in different groups are output into separate subdirectories within <code>trimmed/</code>. If you don't need grouping, use a single group name for all samples or leave the column blank (keep the <code>group</code> header).</p>
+<p><strong>Example</strong> (key columns shown):</p>
+<table>
+<thead>
+<tr>
+<th>filename</th>
+<th>sample</th>
+<th>group</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>15mc-003-P08B01-A01-L4</code></td>
+<td><code>P5-A01-plateP-wellA1</code></td>
+<td><code>group1</code></td>
+</tr>
+<tr>
+<td><code>15mc-003-P08B01-A02-L4</code></td>
+<td><code>P5-A02-plateP-wellA2</code></td>
+<td><code>group1</code></td>
+</tr>
+<tr>
+<td><code>15mc-003-P08B01-A01-L5</code></td>
+<td><code>P6-A01-plateW-wellA5</code></td>
+<td><code>group2</code></td>
+</tr>
+<tr>
+<td><code>15mc-003-P08B01-A02-L5</code></td>
+<td><code>P6-A02-plateW-wellA6</code></td>
+<td><code>group2</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="index-files">Index Files</h2>
+<p>The <code>indexfordemux.txt</code> file contains the inline indexes used for demultiplexing. The <strong>default</strong> file uses the 16S <strong>V4</strong> index set.</p>
+<h3 id="pre-built-index-sets">Pre-built Index Sets</h3>
+<p>Index files for 13 regions are provided in the <code>other_index_for_demux/</code> directory:</p>
+<table>
+<thead>
+<tr>
+<th>Region</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1 - V2</td>
+<td><code>V1-V2_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V1 - V3</td>
+<td><code>V1-V3_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V2 - V3</td>
+<td><code>V2-V3_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V3</td>
+<td><code>V3_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V3 - V4</td>
+<td><code>V3-V4_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V4</td>
+<td><code>V4_index_for_demux.txt</code> (default)</td>
+</tr>
+<tr>
+<td>V4 - V5</td>
+<td><code>V4-V5_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V5</td>
+<td><code>V5_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V5 - V7</td>
+<td><code>V5-V7_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V6</td>
+<td><code>V6_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V6 - V7</td>
+<td><code>V6-V7_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V6 - V8</td>
+<td><code>V6-V8_index_for_demux.txt</code></td>
+</tr>
+<tr>
+<td>V7 - V9</td>
+<td><code>V7-V9_index_for_demux.txt</code></td>
+</tr>
+</tbody>
+</table>
+<p>To use a different region, copy the appropriate file into <code>config/</code> and update the <code>indices</code> field in <code>config.yaml</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For all pre-built index sets, the default <code>config.yaml</code> length parameters are correct — no changes needed for <code>lenR1index</code>, <code>lenR2index</code>, <code>lenR1primer</code>, or <code>lenR2primer</code>.</p>
+</div>
+<h3 id="custom-index-files">Custom Index Files</h3>
+<p>If you are using custom primers, you need to create a custom <code>indexfordemux.txt</code> file and may need to update the length parameters in <code>config.yaml</code>.</p>
+<p>An Excel template (<code>other_index_for_demux.xlsx</code>) is provided in the <code>other_index_for_demux/</code> directory to help derive custom index files.</p>
+<h4 id="understanding-the-read-structure">Understanding the Read Structure</h4>
+<p>The final read structure after library prep looks like this (lengths not to scale):</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/primerStructureImage.png" data-desc-position="bottom"><img alt="Primer structure" src="../images/primerStructureImage.png"></a></p>
+<p>The round 1 indexes use variable-length "phases" (0–7). Each phase has a different number of index bases, with the remaining positions filled by spacer and gene-specific primer sequence:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Variable FP</th>
+<th>Variable RP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td></td>
+<td><code>ATGGACT</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>T</code></td>
+<td><code>GCTAGC</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>GG</code></td>
+<td><code>TGACT</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ACT</code></td>
+<td><code>CGGT</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>TAAC</code></td>
+<td><code>GTA</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>CAGTC</code></td>
+<td><code>AA</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>ATCGAT</code></td>
+<td><code>C</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>GCAAGTC</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/phasedPrimerImage.png" data-desc-position="bottom"><img alt="Phased primer design" src="../images/phasedPrimerImage.png"></a></p>
+<p>During demultiplexing, reads are treated as having 7 base pair indexes on both ends. Any positions not filled by the actual index contain spacer or gene-specific primer sequence. In the default V4 index set:</p>
+<ul>
+<li><strong>Underlined</strong> = actual index bases</li>
+<li><strong>lowercase</strong> = spacer bases</li>
+<li><strong>BOLD UPPERCASE</strong> = gene-specific primer region</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>read1index</th>
+<th>read2index</th>
+<th>bc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>cagt<strong>AGA</strong></td>
+<td><ins>ATGGACT</ins></td>
+<td>CAGTAGAATGGACT</td>
+</tr>
+<tr>
+<td>1</td>
+<td><ins>T</ins>cagt<strong>AG</strong></td>
+<td><ins>GCTAGC</ins>a</td>
+<td>TCAGTAGGCTAGCA</td>
+</tr>
+<tr>
+<td>2</td>
+<td><ins>GG</ins>cagt<strong>A</strong></td>
+<td><ins>TGACT</ins>at</td>
+<td>GGCAGTATGACTAT</td>
+</tr>
+<tr>
+<td>3</td>
+<td><ins>ACT</ins>cagt</td>
+<td><ins>CGGT</ins>atc</td>
+<td>ACTCAGTCGGTATC</td>
+</tr>
+<tr>
+<td>4</td>
+<td><ins>TAAC</ins>cag</td>
+<td><ins>GTA</ins>atcc</td>
+<td>TAACCAGGTAATCC</td>
+</tr>
+<tr>
+<td>5</td>
+<td><ins>CAGTC</ins>ca</td>
+<td><ins>AA</ins>atcc<strong>T</strong></td>
+<td>CAGTCCAAAATCCT</td>
+</tr>
+<tr>
+<td>6</td>
+<td><ins>ATCGAT</ins>c</td>
+<td><ins>C</ins>atcc<strong>TA</strong></td>
+<td>ATCGATCCATCCTA</td>
+</tr>
+<tr>
+<td>7</td>
+<td><ins>GCAAGTC</ins></td>
+<td>atcc<strong>TAC</strong></td>
+<td>GCAAGTCATCCTAC</td>
+</tr>
+</tbody>
+</table>
+<h4 id="changing-only-the-gene-specific-region">Changing Only the Gene-Specific Region</h4>
+<p>If you use the same primer design and index scheme but target a different gene, only the gene-specific regions within the indexes need to change.</p>
+<p><strong>Example:</strong> For the default V4 primers, the gene starts with <code>AGA...</code> and ends with <code>GTA</code> on the forward strand, giving regions of homology <code>AGA</code> and <code>TAC</code> (both 5' to 3').</p>
+<p>For a gene reading <code>ATG ... CGT</code>, the regions of homology become <code>ATG</code> and <code>ACG</code> (both 5' to 3'). The updated index table would be:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>read1index</th>
+<th>read2index</th>
+<th>bc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>cagt<strong>ATG</strong></td>
+<td><ins>ATGGACT</ins></td>
+<td>CAGTAGAATGGACT</td>
+</tr>
+<tr>
+<td>1</td>
+<td><ins>T</ins>cagt<strong>AT</strong></td>
+<td><ins>GCTAGC</ins>a</td>
+<td>TCAGTAGGCTAGCA</td>
+</tr>
+<tr>
+<td>2</td>
+<td><ins>GG</ins>cagt<strong>A</strong></td>
+<td><ins>TGACT</ins>at</td>
+<td>GGCAGTATGACTAT</td>
+</tr>
+<tr>
+<td>3</td>
+<td><ins>ACT</ins>cagt</td>
+<td><ins>CGGT</ins>atc</td>
+<td>ACTCAGTCGGTATC</td>
+</tr>
+<tr>
+<td>4</td>
+<td><ins>TAAC</ins>cag</td>
+<td><ins>GTA</ins>atcc</td>
+<td>TAACCAGGTAATCC</td>
+</tr>
+<tr>
+<td>5</td>
+<td><ins>CAGTC</ins>ca</td>
+<td><ins>AA</ins>atcc<strong>A</strong></td>
+<td>CAGTCCAAAATCCT</td>
+</tr>
+<tr>
+<td>6</td>
+<td><ins>ATCGAT</ins>c</td>
+<td><ins>C</ins>atcc<strong>AC</strong></td>
+<td>ATCGATCCATCCTA</td>
+</tr>
+<tr>
+<td>7</td>
+<td><ins>GCAAGTC</ins></td>
+<td>atcc<strong>ACG</strong></td>
+<td>GCAAGTCATCCTAC</td>
+</tr>
+</tbody>
+</table>
+<p>Only the gene-specific regions (bold) have changed — index and spacer sequences remain identical.</p>
+<div class="admonition danger">
+<p class="admonition-title">Mixed Base Characters</p>
+<p>Avoid mixed base characters such as <code>W</code> or <code>N</code> in the first three positions of your gene-specific primer. If such bases are present, you must include extra entries in the <code>indexfordemux.txt</code> table — one for each possible base (e.g., for <code>W</code>, one entry with <code>A</code> and one with <code>T</code>). Each affected sample should appear twice in the samplesheet, and the output files will need to be merged downstream.</p>
+</div>
+<h4 id="updating-length-parameters">Updating Length Parameters</h4>
+<p>If your custom primers change the index or primer lengths, update <code>config.yaml</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lenR1index</code></td>
+<td>Longest read 1 index length</td>
+<td><code>7</code></td>
+</tr>
+<tr>
+<td><code>lenR2index</code></td>
+<td>Longest read 2 index length</td>
+<td><code>7</code></td>
+</tr>
+<tr>
+<td><code>lenR1primer</code></td>
+<td>Gene-specific primer + spacer length (read 1)</td>
+<td><code>23</code></td>
+</tr>
+<tr>
+<td><code>lenR2primer</code></td>
+<td>Gene-specific primer + spacer length (read 2)</td>
+<td><code>24</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For all pre-built 16S index sets (V1–V2 through V7–V9), the default length values are correct and do not need to be changed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Getting Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../troubleshooting/" class="md-footer__link md-footer__link--next" aria-label="Next: Troubleshooting">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Troubleshooting
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tabs.link", "navigation.instant", "navigation.top", "navigation.footer", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
