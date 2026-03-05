@@ -1,0 +1,40 @@
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #eda39f;
+  --md-primary-fg-color--light: #f4c4c1;
+  --md-primary-fg-color--dark: #d98984;
+  --md-accent-fg-color: #5b9aa0;
+  --md-accent-fg-color--transparent: rgba(91, 154, 160, 0.1);
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #d98984;
+  --md-primary-fg-color--light: #eda39f;
+  --md-primary-fg-color--dark: #c47570;
+  --md-accent-fg-color: #6db5bc;
+  --md-accent-fg-color--transparent: rgba(109, 181, 188, 0.1);
+}
+
+/* Teal accent for links */
+.md-typeset a {
+  color: var(--md-accent-fg-color);
+}
+
+.md-typeset a:hover {
+  color: #4a8288;
+}
+
+[data-md-color-scheme="slate"] .md-typeset a:hover {
+  color: #89cdd4;
+}
+
+/* Hide header logo, show only site name */
+.md-header__button.md-logo {
+  display: none;
+}
+
+/* Navigation tab active indicator */
+.md-tabs__link--active,
+.md-nav__link--active {
+  color: var(--md-accent-fg-color) !important;
+}
